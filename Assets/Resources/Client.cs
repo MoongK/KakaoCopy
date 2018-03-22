@@ -64,17 +64,22 @@ public class Client : MonoBehaviour {
 
         var balloon = Instantiate(Balloon, BalloonRoom.transform);
         realballoon = balloon as GameObject;
-        realballoon.gameObject.transform.Find("Text").GetComponent<Text>().text = Receivedinfo.ReceiveMessage;
-        //realballoon.gameObject.transform.Find("Name").GetComponent<Text>().text = Receivedinfo.ReceiveObject.name;
+        realballoon.gameObject.transform.Find("ground").Find("Text").GetComponent<Text>().text = _recievedClientInfo.ReceiveMessage;
 
         if (_recievedClientInfo.ReceiveObject == gameObject) // 내 풍선일 때.
         {
-            realballoon.GetComponent<Image>().color = Color.white;
-            print("(Client)My information! (From) : " + Receivedinfo.ReceiveObject.name);
+            //realballoon.GetComponent<HorizontalLayoutGroup>().childAlignment = TextAnchor.MiddleRight;
+            realballoon.GetComponent<RectTransform>().pivot = new Vector2(1f, 0.5f);
+            realballoon.transform.Find("username").GetComponent<Text>().text = "Me";
+            realballoon.transform.Find("ground").GetComponent<Image>().color = Color.white;
+            print("(Client)My information! (From) : " + _recievedClientInfo.ReceiveObject.name);
         }
         else // 상대 풍선일 때
         {
-            realballoon.GetComponent<Image>().color = Color.yellow;
+            //realballoon.GetComponent<HorizontalLayoutGroup>().childAlignment = TextAnchor.MiddleLeft;
+            realballoon.GetComponent<RectTransform>().pivot = new Vector2(0f, 0.5f);
+            realballoon.transform.Find("username").GetComponent<Text>().text = _recievedClientInfo.ReceiveObject.transform.Find("Myname").GetComponent<Text>().text;
+            realballoon.transform.Find("ground").GetComponent<Image>().color = Color.yellow;
             print("(Client)Other information! (From) : " + gameObject.name);
         }
     }
